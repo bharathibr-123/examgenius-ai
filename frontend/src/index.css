@@ -1,0 +1,81 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/plus-jakarta-sans";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans Variable", "Inter Variable", ui-sans-serif, sans-serif;
+  --color-navy-950: #0b1020;
+  --color-navy-900: #121a2e;
+  --color-navy-800: #1a2440;
+  --color-navy-700: #232c45;
+  --color-brand-50: #f1efff;
+  --color-brand-100: #e4e0ff;
+  --color-brand-200: #cbc4ff;
+  --color-brand-300: #a99dff;
+  --color-brand-400: #8b7cff;
+  --color-brand-500: #6d5cf6;
+  --color-brand-600: #5b4bf5;
+  --color-brand-700: #4a3bd6;
+  --animate-fade-up: fade-up 0.35s ease-out both;
+  --animate-pop: pop 0.25s ease-out both;
+}
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); } 50% { transform: translateY(-10px) rotate(var(--r, 0deg)); } }
+@keyframes wave { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-18deg); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+
+@layer base {
+  html { -webkit-font-smoothing: antialiased; }
+  body { @apply bg-slate-50 text-slate-900 dark:bg-navy-950 dark:text-slate-100; }
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  :focus-visible { outline: 2px solid var(--color-brand-500); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+.animate-bob { animation: bob 3s ease-in-out infinite; }
+.bg-dots { background-image: radial-gradient(rgba(109, 92, 246, 0.13) 1px, transparent 1px); background-size: 22px 22px; }
+.dark .bg-dots { background-image: radial-gradient(rgba(139, 124, 255, 0.10) 1px, transparent 1px); }
+.card-hover { @apply transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_32px_-12px_rgba(91,75,245,.35)]; }
+.glass { @apply bg-white/70 backdrop-blur-md dark:bg-navy-900/70; }
+.gradient-brand { background-image: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #2563eb 100%); }
+.text-gradient { background-image: linear-gradient(90deg, #6d5cf6, #a855f7 50%, #3b82f6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.card { @apply rounded-2xl border border-slate-200/80 bg-white shadow-[0_1px_2px_rgba(16,24,40,.04),0_8px_24px_-12px_rgba(16,24,40,.08)] dark:border-navy-700 dark:bg-navy-900 dark:shadow-none; }
+.input { @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15 focus:outline-none dark:border-navy-700 dark:bg-navy-950 dark:text-slate-100; }
+.label { @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300; }
+.skeleton { @apply animate-pulse rounded-lg bg-slate-200/80 dark:bg-navy-800; }
+
+}
+
+/* Markdown answers from the AI */
+.md { @apply text-[15px] leading-relaxed text-slate-800 dark:text-slate-200; }
+.md > * + * { margin-top: 0.7em; }
+.md h1, .md h2, .md h3 { @apply font-semibold text-slate-900 dark:text-white; margin-top: 1em; }
+.md h1 { font-size: 1.25rem; } .md h2 { font-size: 1.12rem; } .md h3 { font-size: 1rem; }
+.md ul { list-style: disc; padding-left: 1.3em; } .md ol { list-style: decimal; padding-left: 1.3em; }
+.md li + li { margin-top: 0.25em; }
+.md strong { @apply font-semibold text-slate-900 dark:text-white; }
+.md code { @apply rounded bg-slate-100 px-1.5 py-0.5 text-[13px] dark:bg-navy-800; }
+.md pre { @apply overflow-x-auto rounded-xl bg-slate-900 p-4 text-[13px] text-slate-100 dark:bg-black/40; }
+.md pre code { background: transparent; padding: 0; }
+.md table { @apply w-full border-collapse text-sm; display: block; overflow-x: auto; }
+.md th, .md td { @apply border border-slate-200 px-3 py-1.5 text-left dark:border-navy-700; }
+.md th { @apply bg-slate-50 font-semibold dark:bg-navy-800; }
+.md blockquote { @apply border-l-4 border-brand-300 pl-3 text-slate-600 dark:text-slate-400; }
+.md a { @apply text-brand-600 underline dark:text-brand-300; }
+
+/* Print: question papers and revision packs (Download as PDF via the browser's print dialog) */
+@media print {
+  @page { size: A4; margin: 14mm; }
+  html, body { background: #fff !important; color: #000 !important; }
+  .no-print { display: none !important; }
+  .print-area { box-shadow: none !important; border: none !important; padding: 0 !important; }
+  .print-area * { color: #000 !important; }
+  .print-break { break-inside: avoid; }
+}
